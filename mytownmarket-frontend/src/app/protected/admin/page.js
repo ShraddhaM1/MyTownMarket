@@ -29,7 +29,7 @@ export default function AdminPage() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        "http://localhost:5000/api/businesses/my",
+        "https://mytownmarket.onrender.com/api/businesses/my",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ export default function AdminPage() {
         form.append("images", image);
       });
 
-      const res = await fetch("http://localhost:5000/api/businesses", {
+      const res = await fetch("https://mytownmarket.onrender.com/api/businesses", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

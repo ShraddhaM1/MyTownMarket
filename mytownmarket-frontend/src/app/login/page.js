@@ -17,13 +17,16 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://mytownmarket.onrender.com/api/users/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         },
-        body: JSON.stringify({ email, password }),
-      });
+      );
 
       const data = await res.json();
 
@@ -40,7 +43,6 @@ export default function LoginPage() {
 
       // 🚀 Redirect to dashboard
       router.push("/protected/dashboard");
-
     } catch (err) {
       setError("Server not responding");
     } finally {
@@ -51,16 +53,13 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Login
         </h1>
 
         {/* Email */}
         <div className="mb-4">
-          <label className="block text-gray-700 mb-1 font-medium">
-            Email
-          </label>
+          <label className="block text-gray-700 mb-1 font-medium">Email</label>
           <input
             type="email"
             value={email}
@@ -92,9 +91,7 @@ export default function LoginPage() {
         </div>
 
         {/* Error */}
-        {error && (
-          <p className="text-red-600 text-sm mt-2">{error}</p>
-        )}
+        {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
 
         {/* Login Button */}
         <button
@@ -104,7 +101,6 @@ export default function LoginPage() {
         >
           {loading ? "Logging in..." : "Log in"}
         </button>
-
       </div>
     </main>
   );

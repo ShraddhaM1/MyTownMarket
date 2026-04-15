@@ -26,22 +26,25 @@ export default function AddBusinessPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/api/businesses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetch(
+      "https://mytownmarket.onrender.com/api/businesses",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          sector: form.category,
+          description: form.description,
+          phone: form.phone,
+          address: form.address,
+          upi: form.upi,
+          qrImage: form.qrImage,
+          owner: "697738ba3df841f294ba720a",
+        }),
       },
-      body: JSON.stringify({
-        name: form.name,
-        sector: form.category,
-        description: form.description,
-        phone: form.phone,
-        address: form.address,
-        upi: form.upi,
-        qrImage: form.qrImage,
-        owner: "697738ba3df841f294ba720a",
-      }),
-    });
+    );
 
     if (res.ok) {
       alert("Business added successfully 🚀");
@@ -64,7 +67,6 @@ export default function AddBusinessPage() {
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg relative">
-
       {/* Close Button */}
       <button
         onClick={() => router.push("/protected/dashboard")}
@@ -73,12 +75,9 @@ export default function AddBusinessPage() {
         ✕
       </button>
 
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">
-        Add Business
-      </h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">Add Business</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-
         {/* Business Name */}
         <input
           name="name"
@@ -152,7 +151,6 @@ export default function AddBusinessPage() {
         >
           Add Business
         </button>
-
       </form>
     </div>
   );

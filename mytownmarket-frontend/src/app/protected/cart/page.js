@@ -19,17 +19,14 @@ export default function CartPage() {
     if (storedCart.length > 0 && storedCart[0].businessId) {
       const businessId = storedCart[0].businessId;
 
-      fetch(`http://localhost:5000/api/businesses/${businessId}`)
+      fetch(`https://mytownmarket.onrender.com/api/businesses/${businessId}`)
         .then((res) => res.json())
         .then((data) => setBusiness(data))
         .catch((err) => console.error("Error fetching business:", err));
     }
   }, []);
 
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   // Remove item
   const removeItem = (index) => {
@@ -58,7 +55,7 @@ export default function CartPage() {
         totalAmount: total,
       };
 
-      const res = await fetch("http://localhost:5000/api/orders", {
+      const res = await fetch("https://mytownmarket.onrender.com/api/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +103,6 @@ export default function CartPage() {
 
   return (
     <div className="p-10 max-w-4xl mx-auto text-white">
-
       <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
 
       {cart.length === 0 && (
@@ -136,16 +132,11 @@ export default function CartPage() {
 
       {cart.length > 0 && (
         <>
-          <h2 className="text-xl font-bold mt-6">
-            Total: ₹ {total}
-          </h2>
+          <h2 className="text-xl font-bold mt-6">Total: ₹ {total}</h2>
 
           {/* Payment Box */}
           <div className="mt-6 bg-white text-black p-6 rounded shadow">
-
-            <h3 className="font-semibold mb-3">
-              Select Payment Method
-            </h3>
+            <h3 className="font-semibold mb-3">Select Payment Method</h3>
 
             <label className="flex items-center gap-2 mb-2">
               <input
@@ -166,7 +157,6 @@ export default function CartPage() {
               />
               Online Payment
             </label>
-
           </div>
 
           <button
@@ -181,10 +171,7 @@ export default function CartPage() {
       {/* QR SECTION */}
       {showQR && (
         <div className="mt-8 bg-white text-black p-6 rounded shadow text-center">
-
-          <h3 className="text-xl font-bold mb-4">
-            Scan & Pay
-          </h3>
+          <h3 className="text-xl font-bold mb-4">Scan & Pay</h3>
 
           {/* Business QR */}
           {business?.qrImage ? (
@@ -194,16 +181,12 @@ export default function CartPage() {
               className="mx-auto mb-4 w-48"
             />
           ) : (
-            <p className="text-red-500 mb-4">
-              QR not uploaded by business
-            </p>
+            <p className="text-red-500 mb-4">QR not uploaded by business</p>
           )}
 
           {/* UPI */}
           {business?.upi && (
-            <p className="text-gray-700 mb-3">
-              UPI: {business.upi}
-            </p>
+            <p className="text-gray-700 mb-3">UPI: {business.upi}</p>
           )}
 
           <p className="text-gray-600 mb-4">
@@ -216,7 +199,6 @@ export default function CartPage() {
           >
             I Have Paid
           </button>
-
         </div>
       )}
     </div>

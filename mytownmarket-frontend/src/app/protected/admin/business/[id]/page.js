@@ -29,12 +29,12 @@ export default function BusinessDetailsPage() {
   const fetchData = async () => {
     try {
       const businessRes = await fetch(
-        `http://localhost:5000/api/businesses/${id}`,
+        `https://mytownmarket.onrender.com/api/businesses/${id}`,
       );
       const businessData = await businessRes.json();
 
       const productRes = await fetch(
-        `http://localhost:5000/api/products/by-business/${id}`,
+        `https://mytownmarket.onrender.com/api/products/by-business/${id}`,
       );
       const productData = await productRes.json();
 
@@ -66,50 +66,52 @@ export default function BusinessDetailsPage() {
     setBusinessImages([...e.target.files]);
   };
 
-const handleBusinessUpdate = async (e) => {
-  e.preventDefault();
+  const handleBusinessUpdate = async (e) => {
+    e.preventDefault();
 
-  try {
-    const token = localStorage.getItem("token");
-    const formData = new FormData();
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
 
-    Object.keys(businessForm).forEach((key) => {
-      if (businessForm[key]) {
-        formData.append(key, businessForm[key]);
+      Object.keys(businessForm).forEach((key) => {
+        if (businessForm[key]) {
+          formData.append(key, businessForm[key]);
+        }
+      });
+
+      // upload business images
+      businessImages.forEach((img) => {
+        formData.append("images", img);
+      });
+
+      // ⭐ upload QR image separately
+      if (qrImage) {
+        formData.append("qrImage", qrImage);
       }
-    });
 
-    // upload business images
-    businessImages.forEach((img) => {
-      formData.append("images", img);
-    });
+      const res = await fetch(
+        `https://mytownmarket.onrender.com/api/businesses/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        },
+      );
 
-    // ⭐ upload QR image separately
-    if (qrImage) {
-      formData.append("qrImage", qrImage);
+      if (!res.ok) {
+        alert("Update failed");
+        return;
+      }
+
+      alert("Business updated ✅");
+      setEditingBusiness(false);
+      fetchData();
+    } catch (err) {
+      alert("Server error");
     }
-
-    const res = await fetch(`http://localhost:5000/api/businesses/${id}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-
-    if (!res.ok) {
-      alert("Update failed");
-      return;
-    }
-
-    alert("Business updated ✅");
-    setEditingBusiness(false);
-    fetchData();
-
-  } catch (err) {
-    alert("Server error");
-  }
-};
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -136,8 +138,8 @@ const handleBusinessUpdate = async (e) => {
       });
 
       const url = editingProduct
-        ? `http://localhost:5000/api/products/${editingProduct._id}`
-        : "http://localhost:5000/api/products";
+        ? `https://mytownmarket.onrender.com/api/products/${editingProduct._id}`
+        : "https://mytownmarket.onrender.com/api/products";
 
       const method = editingProduct ? "PUT" : "POST";
 
@@ -168,7 +170,7 @@ const handleBusinessUpdate = async (e) => {
   const handleDelete = async (productId) => {
     const token = localStorage.getItem("token");
 
-    await fetch(`http://localhost:5000/api/products/${productId}`, {
+    await fetch(`https://mytownmarket.onrender.com/api/products/${productId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -251,7 +253,7 @@ const handleBusinessUpdate = async (e) => {
                 <strong>Address:</strong> {business.address}
               </p>
               <p>
-              <strong>UPI ID:</strong> {business.upi}
+                <strong>UPI ID:</strong> {business.upi}
               </p>
               <p>
                 <strong>QR Code:</strong> {business.qrImage}
@@ -304,19 +306,17 @@ const handleBusinessUpdate = async (e) => {
               className="w-full border p-2 rounded bg-white text-black"
             />
 
-           <div>
-  <label className="block mb-1 font-semibold">
-    Upload QR Code
-  </label>
+            <div>
+              <label className="block mb-1 font-semibold">Upload QR Code</label>
 
-  <input
-  type="file"
-  name="qrImage"
-  accept="image/*"
-  onChange={(e) => setQrImage(e.target.files[0])}
-  className="w-full border p-2 rounded bg-white text-black"
-/>
-</div>
+              <input
+                type="file"
+                name="qrImage"
+                accept="image/*"
+                onChange={(e) => setQrImage(e.target.files[0])}
+                className="w-full border p-2 rounded bg-white text-black"
+              />
+            </div>
 
             <textarea
               name="description"
@@ -325,18 +325,18 @@ const handleBusinessUpdate = async (e) => {
               className="w-full border p-2 rounded bg-white text-black"
             />
 
-<div>
-  <label className="block mb-1 font-semibold">
-    Upload Business Images
-  </label>
+            <div>
+              <label className="block mb-1 font-semibold">
+                Upload Business Images
+              </label>
 
-  <input
-    type="file"
-    multiple
-    onChange={handleBusinessImageChange}
-    className="w-full border p-2 rounded bg-white text-black"
-  />
-</div>
+              <input
+                type="file"
+                multiple
+                onChange={handleBusinessImageChange}
+                className="w-full border p-2 rounded bg-white text-black"
+              />
+            </div>
             <button className="bg-green-600 text-white px-4 py-2 rounded">
               Save Changes
             </button>

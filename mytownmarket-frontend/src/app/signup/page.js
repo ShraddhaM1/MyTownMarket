@@ -18,18 +18,21 @@ export default function SignupPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://mytownmarket.onrender.com/api/users/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+            role: "user",
+          }),
         },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          role: "user",
-        }),
-      });
+      );
 
       const data = await res.json();
 
@@ -51,16 +54,13 @@ export default function SignupPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Sign Up
         </h1>
 
         {/* Name */}
         <div className="mb-4">
-          <label className="block text-gray-700 mb-1 font-medium">
-            Name
-          </label>
+          <label className="block text-gray-700 mb-1 font-medium">Name</label>
           <input
             type="text"
             value={name}
@@ -72,9 +72,7 @@ export default function SignupPage() {
 
         {/* Email */}
         <div className="mb-4">
-          <label className="block text-gray-700 mb-1 font-medium">
-            Email
-          </label>
+          <label className="block text-gray-700 mb-1 font-medium">Email</label>
           <input
             type="email"
             value={email}
@@ -105,9 +103,7 @@ export default function SignupPage() {
           </button>
         </div>
 
-        {error && (
-          <p className="text-red-600 text-sm mt-2">{error}</p>
-        )}
+        {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
 
         <button
           onClick={handleSignup}
@@ -119,11 +115,13 @@ export default function SignupPage() {
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Already have an account?{" "}
-          <a href="/login" className="text-teal-600 font-semibold hover:underline">
+          <a
+            href="/login"
+            className="text-teal-600 font-semibold hover:underline"
+          >
             Log in
           </a>
         </p>
-
       </div>
     </main>
   );

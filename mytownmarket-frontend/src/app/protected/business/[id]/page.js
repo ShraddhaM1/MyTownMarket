@@ -16,12 +16,12 @@ export default function BusinessProductsPage() {
     const fetchData = async () => {
       try {
         const businessRes = await fetch(
-          `http://localhost:5000/api/businesses/${id}`
+          `https://mytownmarket.onrender.com/api/businesses/${id}`,
         );
         const businessData = await businessRes.json();
 
         const productRes = await fetch(
-          `http://localhost:5000/api/products/by-business/${id}`
+          `https://mytownmarket.onrender.com/api/products/by-business/${id}`,
         );
         const productData = await productRes.json();
 
@@ -40,9 +40,7 @@ export default function BusinessProductsPage() {
   const handleAddToCart = (product) => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    const existingItem = cart.find(
-      (item) => item.productId === product._id
-    );
+    const existingItem = cart.find((item) => item.productId === product._id);
 
     if (existingItem) {
       existingItem.quantity += 1;
@@ -65,7 +63,6 @@ export default function BusinessProductsPage() {
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
-
       {/* Navigation */}
       <div className="flex justify-between items-center mb-6">
         <button
@@ -85,7 +82,6 @@ export default function BusinessProductsPage() {
 
       {/* Business Header */}
       <div className="mb-10">
-
         {business?.images?.[0] && (
           <div className="relative w-full h-56 mb-4">
             <Image
@@ -100,10 +96,7 @@ export default function BusinessProductsPage() {
 
         {/* FIXED TEXT VISIBILITY */}
         <div className="bg-white text-black p-6 rounded-lg shadow">
-
-          <h1 className="text-3xl font-bold mb-2">
-            {business?.name}
-          </h1>
+          <h1 className="text-3xl font-bold mb-2">{business?.name}</h1>
 
           {business?.sector && (
             <p>
@@ -130,30 +123,23 @@ export default function BusinessProductsPage() {
           )}
 
           {business?.description && (
-            <p className="mt-3 text-gray-700">
-              {business.description}
-            </p>
+            <p className="mt-3 text-gray-700">{business.description}</p>
           )}
-
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold mb-6">
-        Products
-      </h2>
+      <h2 className="text-2xl font-bold mb-6">Products</h2>
 
       {products.length === 0 && (
         <p className="text-gray-500">No products available.</p>
       )}
 
       <div className="grid md:grid-cols-3 gap-6">
-
         {products.map((product) => (
           <div
             key={product._id}
             className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition"
           >
-
             {product.images?.[0] && (
               <div className="relative h-40 w-full mb-3">
                 <Image
@@ -166,17 +152,11 @@ export default function BusinessProductsPage() {
               </div>
             )}
 
-            <h3 className="font-bold text-lg">
-              {product.name}
-            </h3>
+            <h3 className="font-bold text-lg">{product.name}</h3>
 
-            <p className="text-gray-600 text-sm mt-1">
-              {product.description}
-            </p>
+            <p className="text-gray-600 text-sm mt-1">{product.description}</p>
 
-            <p className="font-semibold mt-2">
-              ₹ {product.price}
-            </p>
+            <p className="font-semibold mt-2">₹ {product.price}</p>
 
             <button
               onClick={() => handleAddToCart(product)}
@@ -184,12 +164,9 @@ export default function BusinessProductsPage() {
             >
               Add to Cart
             </button>
-
           </div>
         ))}
-
       </div>
-
     </div>
   );
 }
