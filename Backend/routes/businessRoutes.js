@@ -97,7 +97,7 @@ router.put("/:id", protect, uploadFields, async (req, res) => {
     // ⭐ update business images
     if (req.files?.images) {
       const imagePaths = req.files.images.map((file) =>
-        `http://localhost:5000/${file.path.replace(/\\/g, "/")}`
+        `${process.env.BASE_URL}/${file.path.replace(/\\/g, "/")}`
       );
       business.images = imagePaths;
     }
