@@ -1,10 +1,11 @@
 "use client";
-export const dynamic = "force-dynamic";
+
+import { Suspense } from "react";
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function OrdersPage() {
+function OrdersPageContent() {
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -100,5 +101,12 @@ export default function OrdersPage() {
       )}
 
     </div>
+  );
+}
+export default function OrdersPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OrdersPageContent />
+    </Suspense>
   );
 }
