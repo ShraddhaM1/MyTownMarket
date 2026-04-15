@@ -86,10 +86,14 @@ export default function DashboardPage() {
               {/* Image */}
               <div className="relative w-full h-48 overflow-hidden rounded-t-xl">
                 <Image
-                  src={
-                    biz.images?.[0] ||
-                    "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=800&auto=format&fit=crop"
-                  }
+                 src={
+  biz.images?.[0]
+    ? biz.images[0].replace(
+        "http://localhost:5000",
+        "https://mytownmarket.onrender.com"
+      )
+    : "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=800&auto=format&fit=crop"
+}
                   alt={biz.name}
                   fill
                   unoptimized
