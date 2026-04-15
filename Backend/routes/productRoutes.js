@@ -37,7 +37,7 @@ router.post("/", protect, upload.array("images"), async (req, res) => {
 
     const imagePaths = req.files
       ? req.files.map((file) =>
-          `http://localhost:5000/${file.path.replace(/\\/g, "/")}`
+          `${process.env.BASE_URL}/${file.path.replace(/\\/g, "/")}`
         )
       : [];
 
@@ -95,7 +95,7 @@ router.put("/:id", protect, upload.array("images"), async (req, res) => {
     // If new images uploaded → replace old ones
     if (req.files && req.files.length > 0) {
       const imagePaths = req.files.map((file) =>
-        `http://localhost:5000/${file.path.replace(/\\/g, "/")}`
+        `${process.env.BASE_URL}/${file.path.replace(/\\/g, "/")}`
       );
       product.images = imagePaths;
     }

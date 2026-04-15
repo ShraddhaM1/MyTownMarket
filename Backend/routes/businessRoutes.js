@@ -29,12 +29,12 @@ router.post("/", protect, uploadFields, async (req, res) => {
 
     const imagePaths = req.files?.images
       ? req.files.images.map((file) =>
-          `http://localhost:5000/${file.path.replace(/\\/g, "/")}`
+          `${process.env.BASE_URL}/${file.path.replace(/\\/g, "/")}`
         )
       : [];
 
     const qrImagePath = req.files?.qrImage
-      ? `http://localhost:5000/${req.files.qrImage[0].path.replace(/\\/g, "/")}`
+      ? `${process.env.BASE_URL}/${req.files.qrImage[0].path.replace(/\\/g, "/")}`
       : null;
 
     const business = await Business.create({
@@ -91,7 +91,7 @@ router.put("/:id", protect, uploadFields, async (req, res) => {
     // ⭐ update QR
     if (req.files?.qrImage) {
       business.qrImage =
-        `http://localhost:5000/${req.files.qrImage[0].path.replace(/\\/g, "/")}`;
+        `${process.env.BASE_URL}/${req.files.qrImage[0].path.replace(/\\/g, "/")}`;
     }
 
     // ⭐ update business images
